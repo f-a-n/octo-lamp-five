@@ -10,13 +10,14 @@
       1. Calculate the score as the total of the number of correct answers
 
       2. Add an Event listener for the submit button, which will display the score and highlight 
-         the correct answers when the button is clicked. Use the code from lines 67 to 86 to help you.
-
-      3. Add 2 more questions to the app (each question must have 4 options).
+         the correct answers when the button is clicked. Use the code from lines 67 to 86 to help you.  
 
       4. Reload the page when the reset button is clicked (hint: search window.location)
 
       5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
+    
+      TASKS DONE:
+      3. Add 2 more questions to the app (each question must have 4 options)
 *************************** */
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -25,6 +26,16 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
   });
+
+  const submit = document.querySelector('#btnSubmit');
+  submit.addEventListener('click', () => {
+    console.log('You clicked me!');
+    calculateScore();
+    console.log()
+  });
+
+  // const 
+
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
@@ -44,6 +55,16 @@ window.addEventListener('DOMContentLoaded', () => {
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
     },
+    {
+      q: `What is (mainland) Australia's tallest mountain?`,
+      o: ['Mt Druit', 'Mt Kosciuszko', 'Mt Panorama', 'Mt Owen'],
+      a: 1
+    },
+    {
+      q: `Who was Australia's first PM?`,
+      o: ['Edmund Barton', 'John Howard', 'Alfred Deakin', 'Andrew Fisher' ],
+      a: 0
+    }
   ];
 
   // function to Display the quiz questions and answers from the object
@@ -76,13 +97,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (quizItem.a == i) {
           //change background color of li element here
+          // console.log(`The correct item is`)
         }
 
         if (radioElement.checked) {
-          // code for task 1 goes here
+          if(quizItem.a == i){
+            console.log(`You got question ${index + 1} right`)
+            score++;
+          }
         }
       }
     });
+    console.log(score);
   };
 
   // call the displayQuiz function
