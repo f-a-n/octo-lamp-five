@@ -29,12 +29,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const submit = document.querySelector('#btnSubmit');
   submit.addEventListener('click', () => {
-    console.log('You clicked me!');
+    console.log('You clicked the submit button!');
     calculateScore();
     console.log()
   });
 
-  // const 
+  const reset = document.querySelector("#btnReset");
+  reset.addEventListener('click', () => {
+    console.log('You clicked the reset button!');
+    window.location.reload();
+  });
 
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
