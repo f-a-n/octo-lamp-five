@@ -51,6 +51,10 @@ window.addEventListener('DOMContentLoaded', () => {
     window.location.reload();
   });
 
+  const headingContainer = document.querySelector('#heading-container');
+  const scoreContainer = document.createElement("div");
+
+
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
@@ -136,6 +140,9 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     console.log(score);
+    // add the score to the innerHTMl of the score container, then add that to the heading container!
+    scoreContainer.innerHTML = `You scored ${score} ${(score === 1) ? 'point' : 'points'}!`
+    headingContainer.append(scoreContainer)
   };
 
   // call the displayQuiz function
