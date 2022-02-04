@@ -7,17 +7,23 @@
   The tasks you need to do are below.
 
     TASKS TODO:
-      1. Calculate the score as the total of the number of correct answers
+      
 
-      2. Add an Event listener for the submit button, which will display the score and highlight 
-         the correct answers when the button is clicked. Use the code from lines 67 to 86 to help you.  
+  
 
-      4. Reload the page when the reset button is clicked (hint: search window.location)
+      
 
       5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
     
       TASKS DONE:
+      1. Calculate the score as the total of the number of correct answers
+
+      2. Add an Event listener for the submit button, which will display the score and highlight 
+         the correct answers when the button is clicked. Use the code from lines 67 to 86 to help you.
+
       3. Add 2 more questions to the app (each question must have 4 options)
+
+      4. Reload the page when the reset button is clicked (hint: search window.location)
 *************************** */
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -30,8 +36,13 @@ window.addEventListener('DOMContentLoaded', () => {
   const submit = document.querySelector('#btnSubmit');
   submit.addEventListener('click', () => {
     console.log('You clicked the submit button!');
+    
+    // disable the submit button after the quiz ends:
+    submit.classList.remove("btn-primary");
+    submit.classList.add("btn-light");
+    submit.disabled = true;
+
     calculateScore();
-    console.log()
   });
 
   const reset = document.querySelector("#btnReset");
@@ -100,11 +111,23 @@ window.addEventListener('DOMContentLoaded', () => {
         radioElement = document.querySelector('#' + r);
 
         if (quizItem.a == i) {
-          //change background color of li element here
-          // console.log(`The correct item is`)
+          // check if it is 
+          if(radioElement.checked) {
+            // if that radio item was checked!
+            
+            
+            // make the bg color green!
+            liElement.classList.add("text-success", "font-weight-bold");
+          } else {
+            // make text color red!
+            liElement.classList.add("text-danger", "font-weight-bold");
+          }
         }
 
         if (radioElement.checked) {
+          // highlight the bg color!
+          liElement.classList.add("bg-light")
+
           if(quizItem.a == i){
             console.log(`You got question ${index + 1} right`)
             score++;
