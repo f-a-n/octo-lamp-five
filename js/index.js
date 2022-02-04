@@ -7,7 +7,7 @@
   The tasks you need to do are below.
 
     TASKS TODO:
-    
+
       TASKS DONE:
       1. Calculate the score as the total of the number of correct answers
 
@@ -30,25 +30,23 @@ window.addEventListener('DOMContentLoaded', () => {
   //  quizOver will be set to true, and the timer will know to end! 
   let quizOver = false; 
 
+
+
   const start = document.querySelector('#start');
   start.addEventListener('click', function (e) {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
 
     // timer:
-    let timeLeft = 60 * 5;
+    let timeLeft = 5 * 60;
     const timer = setInterval(() => {
       timeLeft--;
-      if(timeLeft <= 0 || quizOver) {
-        timeContainer.innerHTML = "Time's up!"
-        clearInterval(timer);
+      if(timeLeft <= 0) {
+        topAlert.innerHTML = "Time's up!"
         endQuiz();
-        
+        clearInterval(timer);
       }
-      // display time left as 00:00
-      const secLeft = (timeLeft % 60);
-      const minLeft = (timeLeft - secLeft)/60;
-      topAlert.innerHTML = `Time remaining – ${minLeft < 10 ? '0' : ''}${minLeft}:${secLeft < 10 ? '0' : ''}${secLeft}`
+      topAlert.innerHTML = `Time remaining – ${formatSeconds(timeLeft)}`;
     }, 1000)
   });
 
@@ -59,6 +57,13 @@ window.addEventListener('DOMContentLoaded', () => {
     submit.classList.add("btn-light");
     submit.disabled = true;
     calculateScore();
+  }
+
+  function formatSeconds(seconds) {
+    const secLeft = (seconds % 60);
+    const minLeft = (seconds - secLeft)/60;
+    const niceString = `${minLeft < 10 ? '0' : ''}${minLeft}:${secLeft < 10 ? '0' : ''}${secLeft}`
+    return niceString;
   }
 
   const submit = document.querySelector('#btnSubmit');
