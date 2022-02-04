@@ -24,46 +24,48 @@
 window.addEventListener('DOMContentLoaded', () => {
 
   const topAlert = document.querySelector('#top-alert');
+  const TOTALTIME = 60;
+  topAlert.innerHTML = formatSeconds(TOTALTIME);
   // This constant keeps track of when the quiz is over
   // It is important for the timer (in the start function)
   //  When the quiz is done, in the endQuiz function (called by hitting reset, or the timer in start)
   //  quizOver will be set to true, and the timer will know to end! 
-  let quizOver = false; 
-
 
 
   const start = document.querySelector('#start');
+  let quizDone = false;
   start.addEventListener('click', function (e) {
+
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
 
     // timer:
-    let timeLeft = 5 * 60;
+    let timeLeft = TOTALTIME;
     const timer = setInterval(() => {
-      timeLeft--;
-      if(timeLeft <= 0) {
+      
+      if(timeLeft <= 0 || quizDone === true) {
         topAlert.innerHTML = "Time's up!"
         endQuiz();
         clearInterval(timer);
       }
-      topAlert.innerHTML = `Time remaining – ${formatSeconds(timeLeft)}`;
+      topAlert.innerHTML = formatSeconds(timeLeft);
+      timeLeft--;
     }, 1000)
   });
 
   function endQuiz() {
-    quizOver = true;
     // disable the submit button after the quiz ends:
     submit.classList.remove("btn-primary");
     submit.classList.add("btn-light");
     submit.disabled = true;
+    quizDone = true;
     calculateScore();
   }
 
   function formatSeconds(seconds) {
     const secLeft = (seconds % 60);
     const minLeft = (seconds - secLeft)/60;
-    const niceString = `${minLeft < 10 ? '0' : ''}${minLeft}:${secLeft < 10 ? '0' : ''}${secLeft}`
-    return niceString;
+    return `Time remaining – ${minLeft < 10 ? '0' : ''}${minLeft}:${secLeft < 10 ? '0' : ''}${secLeft}`;
   }
 
   const submit = document.querySelector('#btnSubmit');
@@ -163,9 +165,13 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     console.log(score);
     
-    topAlert.innerHTML = `You scored ${score} ${(score === 1) ? 'point' : 'points'}!`
-    topAlert.classList.remove('alert-danger');
-    topAlert.classList.add('alert-primary')
+    setTimeout(() => {
+      topAlert.innerHTML = `You scored ${score} ${(score === 1) ? 'point' : 'points'}!`
+      topAlert.classList.remove('alert-danger');
+      topAlert.classList.add('alert-primary')
+    }
+    , 1500)
+    
   };
 
   // call the displayQuiz function
