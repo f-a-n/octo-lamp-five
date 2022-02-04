@@ -31,11 +31,14 @@
     <div class="container" id="quizBlock" style="display: none">
       <div class="mb-5" id="heading-container">
         <h2>Test your knowledge</h2>
-        <p>- Time remaining <span id="time">01:00</span></p>
+        <div class="alert alert-danger" role="alert" id="top-alert">
+          Time remaining – 05:00
+        </div>
+        <!-- <p>- Time remaining <span id="time">01:00</span></p> -->
       </div>
       <div id="quizWrap"></div>
 
-      <div>
+      <div class="pb-5">
         <button type="button" class="btn btn-primary" id="btnSubmit">
           Submit Quiz
         </button>

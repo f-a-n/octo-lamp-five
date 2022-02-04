@@ -7,13 +7,6 @@
   The tasks you need to do are below.
 
     TASKS TODO:
-      
-
-  
-
-      
-
-      5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
     
       TASKS DONE:
       1. Calculate the score as the total of the number of correct answers
@@ -24,36 +17,58 @@
       3. Add 2 more questions to the app (each question must have 4 options)
 
       4. Reload the page when the reset button is clicked (hint: search window.location)
+
+      5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
 *************************** */
 
 window.addEventListener('DOMContentLoaded', () => {
+
+  const topAlert = document.querySelector('#top-alert');
+  // This constant keeps track of when the quiz is over
+  // It is important for the timer (in the start function)
+  //  When the quiz is done, in the endQuiz function (called by hitting reset, or the timer in start)
+  //  quizOver will be set to true, and the timer will know to end! 
+  let quizOver = false; 
+
   const start = document.querySelector('#start');
   start.addEventListener('click', function (e) {
     document.querySelector('#quizBlock').style.display = 'block';
     start.style.display = 'none';
+
+    // timer:
+    let timeLeft = 60 * 5;
+    const timer = setInterval(() => {
+      timeLeft--;
+      if(timeLeft <= 0 || quizOver) {
+        timeContainer.innerHTML = "Time's up!"
+        clearInterval(timer);
+        endQuiz();
+        
+      }
+      // display time left as 00:00
+      const secLeft = (timeLeft % 60);
+      const minLeft = (timeLeft - secLeft)/60;
+      topAlert.innerHTML = `Time remaining – ${minLeft < 10 ? '0' : ''}${minLeft}:${secLeft < 10 ? '0' : ''}${secLeft}`
+    }, 1000)
   });
 
-  const submit = document.querySelector('#btnSubmit');
-  submit.addEventListener('click', () => {
-    console.log('You clicked the submit button!');
-    
+  function endQuiz() {
+    quizOver = true;
     // disable the submit button after the quiz ends:
     submit.classList.remove("btn-primary");
     submit.classList.add("btn-light");
     submit.disabled = true;
-
     calculateScore();
-  });
+  }
+
+  const submit = document.querySelector('#btnSubmit');
+  submit.addEventListener('click', endQuiz);
 
   const reset = document.querySelector("#btnReset");
   reset.addEventListener('click', () => {
     console.log('You clicked the reset button!');
     window.location.reload();
   });
-
-  const headingContainer = document.querySelector('#heading-container');
-  const scoreContainer = document.createElement("div");
-
 
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
@@ -114,6 +129,8 @@ window.addEventListener('DOMContentLoaded', () => {
         liElement = document.querySelector('#' + li);
         radioElement = document.querySelector('#' + r);
 
+        radioElement.disabled = true;
+
         if (quizItem.a == i) {
           // check if it is 
           if(radioElement.checked) {
@@ -140,9 +157,10 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
     console.log(score);
-    // add the score to the innerHTMl of the score container, then add that to the heading container!
-    scoreContainer.innerHTML = `You scored ${score} ${(score === 1) ? 'point' : 'points'}!`
-    headingContainer.append(scoreContainer)
+    
+    topAlert.innerHTML = `You scored ${score} ${(score === 1) ? 'point' : 'points'}!`
+    topAlert.classList.remove('alert-danger');
+    topAlert.classList.add('alert-primary')
   };
 
   // call the displayQuiz function
