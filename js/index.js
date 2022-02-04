@@ -30,10 +30,10 @@ window.addEventListener('DOMContentLoaded', () => {
   // It is important for the timer (in the start function)
   //  When the quiz is done, in the endQuiz function (called by hitting reset, or the timer in start)
   //  quizOver will be set to true, and the timer will know to end! 
-
+  let quizDone = false;
 
   const start = document.querySelector('#start');
-  let quizDone = false;
+  
   start.addEventListener('click', function (e) {
 
     document.querySelector('#quizBlock').style.display = 'block';
@@ -42,19 +42,32 @@ window.addEventListener('DOMContentLoaded', () => {
     // timer:
     let timeLeft = TOTALTIME;
     const timer = setInterval(() => {
-      
-      if(timeLeft <= 0 || quizDone === true) {
-        topAlert.innerHTML = "Time's up!"
+      timeLeft--;
+
+      if(quizDone === true){
+        console.log("This should happen after end quiz thingo!")
+        clearInterval(timer);
+
+      }
+
+      if(timeLeft <= 0) {
         endQuiz();
         clearInterval(timer);
       }
+      console.log("This should happen after end quiz, for last time!")
       topAlert.innerHTML = formatSeconds(timeLeft);
-      timeLeft--;
-    }, 1000)
+      
+    }, 1000);
+
+    console.log("This happens right after the timer function!")
+
+
+
   });
 
   function endQuiz() {
     // disable the submit button after the quiz ends:
+    console.log("End quiz is being called!")
     submit.classList.remove("btn-primary");
     submit.classList.add("btn-light");
     submit.disabled = true;
@@ -127,6 +140,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Calculate the score
   const calculateScore = () => {
+    console.log("Calculate score is being called!")
     let score = 0;
     quizArray.map((quizItem, index) => {
       for (let i = 0; i < 4; i++) {
@@ -157,20 +171,28 @@ window.addEventListener('DOMContentLoaded', () => {
           liElement.classList.add("bg-light")
 
           if(quizItem.a == i){
-            console.log(`You got question ${index + 1} right`)
             score++;
           }
         }
       }
     });
-    console.log(score);
+    // console.log(score);
+    console.log("Right after before set timeOut!");
+    //  why was this called twice??
     
+    // topAlert.innerHTML = `You scored ${score} ${(score === 1) ? 'point' : 'points'}!`
+    // topAlert.classList.remove('alert-danger');
+    // topAlert.classList.add('alert-primary')
+
+
     setTimeout(() => {
+      console.log("Inside set timeout, does it happen last??");
       topAlert.innerHTML = `You scored ${score} ${(score === 1) ? 'point' : 'points'}!`
       topAlert.classList.remove('alert-danger');
       topAlert.classList.add('alert-primary')
     }
-    , 1500)
+    , 1000)
+    // console.log("after set timeout!")
     
   };
 
